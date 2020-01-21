@@ -1,0 +1,325 @@
+1.eb ---> shows help
+
+2.eb init ---> select region with number ---> 5 for Franfurt
+
+3.application name
+
+4.select platform ---> 7
+
+5.ssh-keys ---> 1
+
+done
+
+6.eb list shows current environment
+
+7.eb create ---> for environment creation
+
+8. eb platform show
+Current default platform: Docker 18.06.1-ce
+New environments will be running:  64bit Amazon Linux 2018.03 v2.12.14 running Docker 18.06.1-ce
+
+9.https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_dockerpreconfig.html
+
+10.https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.customenv.html
+
+11.eb create
+
+12.eb local run
+   https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb3-local.html
+
+13. aws ecr get-login
+   https://docs.aws.amazon.com/cli/latest/reference/ecr/get-login.html
+
+14. aws ecr describe-repositories
+   https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html
+
+15. ECR Policy
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr_managed_policies.html
+  
+16.eb create mysingle ---> Environment Setup for single instance
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb3-create.html
+
+17. EB CLI important switches
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb3-create.html
+
+Example: eb create cloudelligent-single-ec2 --instance_profile cloudelligent-ecr-frankfurt
+
+18.eb create
+
+19. eb config mh-prod
+
+20. In application dicrectory ---> edit ---> the configuration file
+
+(Note: always start with   ----> eb init ---> in new directory + incase error comes docker-compose not found install docker-compose)
+https://docs.docker.com/compose/install/
+
+
+#################################################################################
+                   IAM ROLE (instance profile)
+
+eb create cloudelligent-single-ec2 --instance_profile cloudelligent-ecr-frankfurt
+
+# Instance Profile is IAM role, you must attach 3 IAM polices with this ROLE you created.
+
+###################################################################################################################
+#AmazonECS_FullAccess Polciy
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:DescribeScalableTargets",
+                "application-autoscaling:DescribeScalingActivities",
+                "application-autoscaling:DescribeScalingPolicies",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:RegisterScalableTarget",
+                "appmesh:ListMeshes",
+                "appmesh:ListVirtualNodes",
+                "appmesh:DescribeVirtualNode",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateAutoScalingGroup",
+                "autoscaling:CreateLaunchConfiguration",
+                "autoscaling:DeleteAutoScalingGroup",
+                "autoscaling:DeleteLaunchConfiguration",
+                "autoscaling:Describe*",
+                "cloudformation:CreateStack",
+                "cloudformation:DeleteStack",
+                "cloudformation:DescribeStack*",
+                "cloudformation:UpdateStack",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DeleteAlarms",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:PutMetricAlarm",
+                "codedeploy:CreateApplication",
+                "codedeploy:CreateDeployment",
+                "codedeploy:CreateDeploymentGroup",
+                "codedeploy:GetApplication",
+                "codedeploy:GetDeployment",
+                "codedeploy:GetDeploymentGroup",
+                "codedeploy:ListApplications",
+                "codedeploy:ListDeploymentGroups",
+                "codedeploy:ListDeployments",
+                "codedeploy:StopDeployment",
+                "codedeploy:GetDeploymentTarget",
+                "codedeploy:ListDeploymentTargets",
+                "codedeploy:GetDeploymentConfig",
+                "codedeploy:GetApplicationRevision",
+                "codedeploy:RegisterApplicationRevision",
+                "codedeploy:BatchGetApplicationRevisions",
+                "codedeploy:BatchGetDeploymentGroups",
+                "codedeploy:BatchGetDeployments",
+                "codedeploy:BatchGetApplications",
+                "codedeploy:ListApplicationRevisions",
+                "codedeploy:ListDeploymentConfigs",
+                "codedeploy:ContinueDeployment",
+                "sns:ListTopics",
+                "lambda:ListFunctions",
+                "ec2:AssociateRouteTable",
+                "ec2:AttachInternetGateway",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CancelSpotFleetRequests",
+                "ec2:CreateInternetGateway",
+                "ec2:CreateLaunchTemplate",
+                "ec2:CreateRoute",
+                "ec2:CreateRouteTable",
+                "ec2:CreateSecurityGroup",
+                "ec2:CreateSubnet",
+                "ec2:CreateVpc",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:DeleteSubnet",
+                "ec2:DeleteVpc",
+                "ec2:Describe*",
+                "ec2:DetachInternetGateway",
+                "ec2:DisassociateRouteTable",
+                "ec2:ModifySubnetAttribute",
+                "ec2:ModifyVpcAttribute",
+                "ec2:RunInstances",
+                "ec2:RequestSpotFleet",
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:DeleteRule",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "ecs:*",
+                "events:DescribeRule",
+                "events:DeleteRule",
+                "events:ListRuleNamesByTarget",
+                "events:ListTargetsByRule",
+                "events:PutRule",
+                "events:PutTargets",
+                "events:RemoveTargets",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListInstanceProfiles",
+                "iam:ListRoles",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:FilterLogEvents",
+                "route53:GetHostedZone",
+                "route53:ListHostedZonesByName",
+                "route53:CreateHostedZone",
+                "route53:DeleteHostedZone",
+                "route53:GetHealthCheck",
+                "servicediscovery:CreatePrivateDnsNamespace",
+                "servicediscovery:CreateService",
+                "servicediscovery:GetNamespace",
+                "servicediscovery:GetOperation",
+                "servicediscovery:GetService",
+                "servicediscovery:ListNamespaces",
+                "servicediscovery:ListServices",
+                "servicediscovery:UpdateService",
+                "servicediscovery:DeleteService"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:*:*:parameter/aws/service/ecs*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteInternetGateway",
+                "ec2:DeleteRoute",
+                "ec2:DeleteRouteTable",
+                "ec2:DeleteSecurityGroup"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/aws:cloudformation:stack-name": "EC2ContainerService-*"
+                }
+            }
+        },
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:iam::*:role/ecsInstanceRole*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": [
+                        "ec2.amazonaws.com",
+                        "ec2.amazonaws.com.cn"
+                    ]
+                }
+            }
+        },
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:iam::*:role/ecsAutoscaleRole*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": [
+                        "application-autoscaling.amazonaws.com",
+                        "application-autoscaling.amazonaws.com.cn"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": [
+                        "ecs.amazonaws.com",
+                        "spot.amazonaws.com",
+                        "spotfleet.amazonaws.com",
+                        "ecs.application-autoscaling.amazonaws.com",
+                        "autoscaling.amazonaws.com"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+#########################################################################################################################
+
+#AWSElasticBeanstalkMulticontainerDocker 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ECSAccess",
+            "Effect": "Allow",
+            "Action": [
+                "ecs:Poll",
+                "ecs:StartTask",
+                "ecs:StopTask",
+                "ecs:DiscoverPollEndpoint",
+                "ecs:StartTelemetrySession",
+                "ecs:RegisterContainerInstance",
+                "ecs:DeregisterContainerInstance",
+                "ecs:DescribeContainerInstances",
+                "ecs:Submit*",
+                "ecs:DescribeTasks"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+###############################################################################################################################
+
+# ECR Polciy
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+#################################################################################################################################

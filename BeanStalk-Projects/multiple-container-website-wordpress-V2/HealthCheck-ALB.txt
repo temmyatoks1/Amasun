@@ -1,0 +1,3 @@
+/wp-login.php
+
+Note: For Wordpress healthcheck will be /wp-login.php
